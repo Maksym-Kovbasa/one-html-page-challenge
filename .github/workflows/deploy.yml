@@ -1,29 +1,20 @@
+
 name: Deploy to GitHub Pages
 
 on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+ push:
+   branches:
+     - master
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
+ deploy:
+   runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '14'
-
-     
-
-      - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@3.7.1
-        with:
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-          BRANCH: gh-pages
-          FOLDER: dist
+   steps:
+   - name: Checkout code
+     uses: actions/checkout@v2
+   - name: Deploy to GitHub Pages
+     uses: peaceiris/actions-gh-pages@v3
+     with:
+       github\_token: ${{ secrets.GITHUB\_TOKEN }}
+       publish\_dir: ./
