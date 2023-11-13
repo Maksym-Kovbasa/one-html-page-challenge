@@ -7,14 +7,27 @@ on:
      - master
 
 jobs:
- deploy:
-   runs-on: ubuntu-latest
+  deploy:
+    runs-on: ubuntu-latest
 
-   steps:
-   - name: Checkout code
-     uses: actions/checkout@v2
-   - name: Deploy to GitHub Pages
-     uses: peaceiris/actions-gh-pages@v3
-     with:
-       github\_token: ${{ secrets.ACCESS_TOKEN }}
-       publish\_dir: ./
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '14'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build
+      run: npm run build
+
+    - name: Deploy to GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@3.7.1
+      with:
+        GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        BRANCH: gh-pages
+        FOLDER: build
